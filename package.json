@@ -33,5 +33,6 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:tonymet/knox-ec2-role.git"
-  }
+  },
+  "main": "index.js"
 }
