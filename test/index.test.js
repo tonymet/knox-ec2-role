@@ -1,6 +1,14 @@
-var knoxec2 = require('../index.js')
-, chai = require('chai')
+var chai = require('chai')
 , expect = chai.expect
+, proxyquire = require('proxyquire')
+, AWS = require('aws-sdk-mock')
+, knoxec2
+
+AWS.mock('MetadataService', 'loadCredentials', function (callback) {
+  callback(null, {AccessKeyId: process.env.ACCESS_KEY_ID
+    , SecretAccessKey: process.env.SECRET_ACCESS_KEY})
+})
+knoxec2 = proxyquire('../index.js', { 'AWS': AWS })
 
 describe('knox-ec2-role', function () {
   it('should upload file', function (done) {
@@ -20,9 +28,8 @@ describe('knox-ec2-role', function () {
         req.end(string)
       })
       .catch(function (e) {
-        console.log('error fetching metatdata:' + e)
+        expect(e).to.not.be.true
         done()
       })
   })
-
 })
