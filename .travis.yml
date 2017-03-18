@@ -12,4 +12,10 @@ env:
 cache:
   yarn: true
   directories:
-    - node_modules
+  - node_modules
+deploy:
+  provider: npm
+  on:
+    tags: true
+  api_key:
+    secure: SkOWWOL4HFmahUmku/q9862Jm7lFPmHFaMexok7xvCAoJDYmBbEzUoTzgkA6gG6YW42LqFrU+goV0SePKhm9EeIkAESmukB9wYOt3bGr1DJURiL21DxpvaBN+BiYNbvsKQcLf96LMVrFmSsxxkKGpmPaT755MUD1e5rAH3Upr3dLUMuKTc6u9GMDrmWbB2VZe6IB92DY9W5qL2wHkr6arLddWiSv2ciEOK9lMwGCO+MtgyNmT8Iy/fLVSObECkTm3E6dxw2pleJv+fCA24etu8j3a+EkLk5BuXYwbkDDHLpVVJAP0m0aMq1X1wfu05bNSQESkXW3CZfb32SHK23Anjmj3SNI09q7fDuIWZ3kogEm5SU+HrvG5SrobWiTFIhFYqE0+z15ipjebZykDDqvEBo9ypTMzAU/oZbn+UOLbpBW0zT3D46xotdxd7zEwUZ7u06jwQwkt2AAP+Ot0v0PiwYimd2Bht01EntPSQqyprJ3I60NE04fK2ttCj0pQd6bK4oaMW7hdf0ZpFd/+GeGKfS38wVkNWjbhx8dd5eRkLUb2w51igeTKBYwI8d4yh491cifroHcozeZDb/vQBSJMyBtjYZJ9b1SvTMEy3B9EgaVU5pcpLnm/bPHn8Kt0ra/SPdSj0eTM6iyhoZhlA2glHbnCAkk8+4RcvO1RDrtCso=

@@ -6,7 +6,7 @@
     "amazon",
     "s3"
   ],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "aws-sdk": "^2.28.0",
     "bluebird": "^3.5.0",
