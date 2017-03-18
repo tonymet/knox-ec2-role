@@ -16,7 +16,7 @@
   "scripts": {
     "lint": "eslint -f unix .",
     "inspect": "jsinspect",
-    "pretest": "npm run lint && npm run inspect",
+    "pretest": "yarn run lint && yarn run inspect",
     "test": "mocha test"
   },
   "publishConfig": {
