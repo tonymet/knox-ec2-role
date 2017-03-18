@@ -14,7 +14,7 @@ module.exports = {
       debug('loading credentials from aws metadata')
       metadata.loadCredentials(function (err, creds) {
         if (err) {
-          debug('emit err')
+          debug('error: ', err)
           reject(err)
           return
         }
@@ -22,7 +22,6 @@ module.exports = {
         Object.assign(conf, {key: creds.AccessKeyId, secret: creds.SecretAccessKey, token: creds.Token})
         try {
           var client = knox.createClient(conf)
-          debug('emit end')
           resolve(client)
         } catch (e) {
           debug(e)
