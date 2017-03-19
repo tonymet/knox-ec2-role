@@ -34,7 +34,7 @@ describe('uploading files', function () {
         req.end(string)
       })
   })
-  it('should should fail to upload with a bad bucket', function (done) {
+  it('should fail to upload with a bad bucket', function (done) {
     knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'}, {timeout: 5000})
       .then(function (client) {
         var object = { foo: 'bar' }
@@ -63,6 +63,7 @@ describe('failed metadata test', function () {
   })
   after(function () {
     knoxec2 = null
+    AWS.restore('MetadataService')
   })
   it('should reject a broken promise', function () {
     return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}, {timeout: 5000})).to.be.rejected
