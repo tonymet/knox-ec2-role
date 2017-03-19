@@ -16,7 +16,7 @@ npm install --save knox-ec2-role
 ## Usage
 ```
 var knoxec2 = require('knox-ec2-role')
-knoxec2.authenticate({bucket: 'my-bucket'}, {timeout: 5000})
+knoxec2.authenticate({bucket: 'my-bucket'})
   .then(function(client){
     var req = client.put('/test/obj.json', {
       'Content-Type': 'application/json'

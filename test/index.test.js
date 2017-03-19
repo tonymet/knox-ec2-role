@@ -1,6 +1,7 @@
 'use strict'
 var chai = require('chai')
 , expect = chai.expect
+, debug = require('debug')('index.test.js')
 , proxyquire = require('proxyquire')
 , AWS = require('aws-sdk-mock')
 chai.use(require('chai-as-promised'))
@@ -16,7 +17,7 @@ function testUpload (cb) {
 }
 
 describe('uploading files', function () {
-  let knoxec2
+  var knoxec2
   before(function () {
     AWS.mock('MetadataService', 'loadCredentials', function (callback) {
       callback(null, {AccessKeyId: process.env.ACCESS_KEY_ID
@@ -55,11 +56,11 @@ describe('uploading files', function () {
 })
 
 describe('failed metadata test', function () {
-  let knoxec2
+  var knoxec2
   before(function () {
     AWS.mock('MetadataService', 'loadCredentials', function (callback) {
-      // force error
-      callback(true)
+      debug('mocking failure')
+      callback(true, {})
     })
     knoxec2 = proxyquire('../index.js', { 'AWS': AWS })
   })
@@ -67,13 +68,22 @@ describe('failed metadata test', function () {
     knoxec2 = null
     AWS.restore('MetadataService')
   })
-  it('should reject a broken promise', function () {
+  it('should reject when MetadataService returns error', function () {
+    debugger
     return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
   })
+  /*
+  it('should reject when MetadataService returns error', function (done) {
+    knoxec2.authenticate({bucket: process.env.K2_BUCKET}).catch(function (err) {
+      expect(err).to.equal('kaka')
+      done()
+    })
+  })
+  */
 })
 
 describe('metadata returns bad key', function () {
-  let knoxec2
+  var knoxec2
   before(function () {
     AWS.mock('MetadataService', 'loadCredentials', function (callback) {
       callback(null, {AccessKeyId: null
