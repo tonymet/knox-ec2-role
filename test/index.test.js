@@ -69,3 +69,21 @@ describe('failed metadata test', function () {
     return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}, {timeout: 5000})).to.be.rejected
   })
 })
+
+describe('metadata returns bad key', function () {
+  let knoxec2
+  before(function () {
+    AWS.mock('MetadataService', 'loadCredentials', function (callback) {
+      callback(null, {AccessKeyId: null
+        , SecretAccessKey: null})
+    })
+    knoxec2 = proxyquire('../index.js', { 'AWS': AWS })
+  })
+  after(function () {
+    knoxec2 = null
+    AWS.restore('MetadataService')
+  })
+  it('should reject a broken promise', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}, {timeout: 5000})).to.be.rejected
+  })
+})
