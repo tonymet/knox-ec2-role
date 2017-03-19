@@ -1,3 +1,4 @@
+/*global Promise:true*/
 var AWS = require('aws-sdk')
   , debug = require('debug')('knox-ec2-role')
   , knox = require('knox')
@@ -5,21 +6,23 @@ var AWS = require('aws-sdk')
 module.exports = {
   authenticate: function (conf, httpOptions) {
     conf = conf || {}
-    var metadata = new AWS.MetadataService()
     Object.assign(AWS.config.httpOptions, httpOptions)
-    return metadata.loadCredentials().promise()
-      .then(function (creds) {
-        debug('loading credentials from aws metadata')
-        debug(creds)
+    return new Promise(function (resolve, reject) {
+      var metadataService = new AWS.MetadataService()
+      metadataService.loadCredentials(function (err, creds) {
+        if (err !== null) {
+          return reject(err)
+        }
+        debug('credentials from aws: ', creds)
         Object.assign(conf, {key: creds.AccessKeyId, secret: creds.SecretAccessKey, token: creds.Token})
         try {
-          var client = knox.createClient(conf)
-          return Promise.resolve(client)
+          return resolve(knox.createClient(conf))
         } catch (e) {
           debug(e)
           debug(e.stack)
-          return Promise.reject(e)
+          reject(e)
         }
       })
+    })
   }
 }

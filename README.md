@@ -14,26 +14,19 @@ npm install --save knox-ec2-role
 ```
 
 ## Usage
-
 ```
 var knoxec2 = require('knox-ec2-role')
-
-defaultConf = {bucket: 'my-bucket'};
-
-knoxec2.authenticate(defaultConf, {timeout: 5000})
+knoxec2.authenticate({bucket: 'my-bucket'})
   .then(function(client){
-    var object = { foo: "bar" };
-    var string = JSON.stringify(object);
     var req = client.put('/test/obj.json', {
-        'Content-Length': Buffer.byteLength(string)
-      , 'Content-Type': 'application/json'
-    });
+      'Content-Type': 'application/json'
+    })
     req.on('response', function(res){
       if (200 == res.statusCode) {
         console.log('saved to %s', req.url);
       }
-    });
-    req.end(string);
+    }
+    req.end(JSON.stringify({foo: 'bar'}))
   })
   .catch(function(e){
     console.log('error fetching metadata:' + e)
