@@ -5,6 +5,16 @@ var chai = require('chai')
 , AWS = require('aws-sdk-mock')
 chai.use(require('chai-as-promised'))
 
+function testUpload (cb) {
+    return function (client) {
+      var req = client.put('/test/obj.json', {
+        'Content-Type': 'application/json'
+      })
+      req.on('response', cb)
+      req.end(JSON.stringify({foo: 'bar2'}))
+    }
+}
+
 describe('uploading files', function () {
   let knoxec2
   before(function () {
@@ -19,36 +29,28 @@ describe('uploading files', function () {
     AWS.restore('MetadataService')
   })
   it('should upload file', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET}, {timeout: 5000})
-      .then(function (client) {
-        var object = { foo: 'bar' }
-        , string = JSON.stringify(object)
-        , req = client.put('/test/obj.json', {
-            'Content-Length': Buffer.byteLength(string)
-          , 'Content-Type': 'application/json'
-        })
-        req.on('response', function (res) {
-          expect(res.statusCode).to.equal(200)
-          done()
-        })
-        req.end(string)
-      })
+    knoxec2.authenticate({bucket: process.env.K2_BUCKET})
+      .then(testUpload(function (res) {
+        expect(res.statusCode).to.equal(200)
+        done()
+      }))
   })
   it('should fail to upload with a bad bucket', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'}, {timeout: 5000})
+    knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'})
+      .then(testUpload(function (res) {
+        expect(res.statusCode).to.equal(404)
+        done()
+      }))
+  })
+  it('should work without httpOptions', function (done) {
+    knoxec2.authenticate({bucket: process.env.K2_BUCKET})
       .then(function (client) {
-        var object = { foo: 'bar' }
-        , string = JSON.stringify(object)
-        , req = client.put('/test/obj.json', {
-            'Content-Length': Buffer.byteLength(string)
-          , 'Content-Type': 'application/json'
-        })
-        req.on('response', function (res) {
-          expect(res.statusCode).to.equal(404)
-          done()
-        })
-        req.end(string)
+        expect(client).to.be.an.object
+        done()
       })
+  })
+  it('should reject when a bucket is not specified', function () {
+      return expect(knoxec2.authenticate({})).to.be.rejectedWith('aws "bucket" required')
   })
 })
 
@@ -66,7 +68,7 @@ describe('failed metadata test', function () {
     AWS.restore('MetadataService')
   })
   it('should reject a broken promise', function () {
-    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}, {timeout: 5000})).to.be.rejected
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
   })
 })
 
@@ -84,6 +86,6 @@ describe('metadata returns bad key', function () {
     AWS.restore('MetadataService')
   })
   it('should reject a broken promise', function () {
-    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}, {timeout: 5000})).to.be.rejected
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
   })
 })
