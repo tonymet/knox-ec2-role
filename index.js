@@ -16,6 +16,8 @@ module.exports = {
           var client = knox.createClient(conf)
           return Promise.resolve(client)
         } catch (e) {
+          debug(e)
+          debug(e.stack)
           return Promise.reject(e)
         }
       })
