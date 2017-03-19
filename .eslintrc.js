@@ -23,7 +23,7 @@ module.exports = {
        "promise/no-nesting": "warn",
        "promise/no-promise-in-callback": "warn",
        "promise/no-callback-in-promise": "warn",
-       "promise/avoid-new": "warn"
+       "promise/avoid-new": "off"
         
     },
     "env": {
