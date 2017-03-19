@@ -21,7 +21,11 @@ knoxec2.authenticate({bucket: 'my-bucket'}, {timeout: 5000})
     var req = client.put('/test/obj.json', {
       'Content-Type': 'application/json'
     })
-    req.on('response', cb)
+    req.on('response', function(res){
+      if (200 == res.statusCode) {
+        console.log('saved to %s', req.url);
+      }
+    }
     req.end(JSON.stringify({foo: 'bar'}))
   })
   .catch(function(e){
