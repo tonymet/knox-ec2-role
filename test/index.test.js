@@ -55,7 +55,7 @@ describe('uploading files', function () {
       .catch(function(){})
   })
   it('should reject when a bucket is not specified', function () {
-    return expect(knoxec2.authenticate({})).to.be.rejectedWith('aws "bucket" required')
+    return expect(knoxec2.authenticate({key: 'fdsaf', secret: 'fdasf'})).to.be.rejectedWith('aws "bucket" required')
   })
 })
 

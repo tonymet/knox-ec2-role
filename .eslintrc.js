@@ -1,8 +1,5 @@
 module.exports = {
     "rules": {
-        "indent": [
-            "error", 2
-        ],
         "quotes": [
             2,
             "single"
@@ -15,7 +12,7 @@ module.exports = {
             2,
             "never"
         ],
-        "promise/always-return": "error",
+      "promise/always-return": "error",
        "promise/no-return-wrap": "error",
        "promise/param-names": "error",
        "promise/catch-or-return": "error",
