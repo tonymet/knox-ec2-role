@@ -3,7 +3,7 @@ var AWS = require('aws-sdk')
   , debug = require('debug')('knox-ec2-role')
   , knox = require('knox')
 
-var REFRESH_INTERVAL = 30 * 60 * 1000
+var REFRESH_INTERVAL = 3 * 60 * 1000
 
 function authenticate(conf, httpOptions) {
   conf = conf || {}
