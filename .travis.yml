@@ -13,8 +13,9 @@ cache:
   yarn: true
   directories:
   - node_modules
-script:
+install:
     - yarn --ignore-engines
+script:
     - yarn lint
     - yarn test
 jobs:
