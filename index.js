@@ -5,7 +5,6 @@ var AWS = require('aws-sdk')
 
 var REFRESH_INTERVAL = 3 * 60 * 1000
 
-var intervalId = null
 function authenticate(conf, httpOptions) {
   conf = conf || {}
   Object.assign(AWS.config.httpOptions, httpOptions)
@@ -16,8 +15,8 @@ function authenticate(conf, httpOptions) {
       if (err !== null) {
         return reject(err)
       }
-      debug("conf", conf)
-      debug("httpOptions", httpOptions)
+      debug('conf', conf)
+      debug('httpOptions', httpOptions)
       debug('credentials from aws: ', creds)
       Object.assign(conf, {key: creds.AccessKeyId, secret: creds.SecretAccessKey, token: creds.Token})
       // refresh creds periodically

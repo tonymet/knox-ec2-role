@@ -6,14 +6,14 @@ var debug = require('debug')('index.test.js')
 , AWS = require('aws-sdk-mock')
 , expect = chai.expect
 
-function testUpload (cb) {
-  return function (client) {
+function testUpload (client) {
+  return new Promise(function(resolve) {
     var req = client.put('/test/obj.json', {
       'Content-Type': 'application/json'
     })
-    req.on('response', cb)
+    req.on('response', resolve)
     req.end(JSON.stringify({foo: 'bar2'}))
-  }
+  })
 }
 
 describe('uploading files', function () {
@@ -29,29 +29,16 @@ describe('uploading files', function () {
     knoxec2 = null
     AWS.restore()
   })
-  it('should upload file', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET})
-      .then(testUpload(function (res) {
-        expect(res.statusCode).to.equal(200)
-        done()
-      }))
-      .catch(done)
+  it('should upload file', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}).then(testUpload))
+      .to.eventually.have.property('statusCode', 200)
   })
-  it('should fail to upload with a bad bucket', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'})
-      .then(testUpload(function (res) {
-        expect(res.statusCode).to.equal(404)
-        done()
-      }))
-      .catch(done)
+  it('should fail to upload with a bad bucket', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'}).then(testUpload))
+      .to.eventually.have.property('statusCode', 404)
   })
-  it('should work without httpOptions', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET})
-      .then(function(client) {
-        expect(client).to.have.property('options')
-        done()
-      })
-      .catch(done)
+  it('should work without httpOptions', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.eventually.have.property('options')
   })
   it('should reject when a bucket is not specified', function () {
     return expect(knoxec2.authenticate({key: 'fdsaf', secret: 'fdasf'})).to.be.rejectedWith('aws "bucket" required')
@@ -71,8 +58,8 @@ describe('failed metadata test', function () {
     knoxec2 = null
     AWS.restore()
   })
-  it('should reject when MetadataService returns error', function (done) {
-    expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected.notify(done)
+  it('should reject when MetadataService returns error', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
   })
 })
 
