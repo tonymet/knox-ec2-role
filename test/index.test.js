@@ -1,58 +1,44 @@
 /*eslint promise/no-callback-in-promise:off*/
 'use strict'
 var chai = require('chai')
-, expect = chai.expect
-, debug = require('debug')('index.test.js')
-, proxyquire = require('proxyquire')
-, AWS = require('aws-sdk-mock')
 chai.use(require('chai-as-promised'))
+var debug = require('debug')('index.test.js')
+, AWS = require('aws-sdk-mock')
+, expect = chai.expect
 
-function testUpload (cb) {
-  return function (client) {
+function testUpload (client) {
+  return new Promise(function(resolve) {
     var req = client.put('/test/obj.json', {
       'Content-Type': 'application/json'
     })
-    req.on('response', cb)
+    req.on('response', resolve)
     req.end(JSON.stringify({foo: 'bar2'}))
-  }
+  })
 }
 
 describe('uploading files', function () {
   var knoxec2
-  before(function () {
+  beforeEach(function () {
     AWS.mock('MetadataService', 'loadCredentials', function (callback) {
       callback(null, {AccessKeyId: process.env.AWS_ACCESS_KEY_ID
         , SecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY})
-    })
-    knoxec2 = proxyquire('../index.js', { 'AWS': AWS })
+    } )
+    knoxec2 = require('../')
   })
-  after(function () {
+  afterEach(function () {
     knoxec2 = null
     AWS.restore()
   })
-  it('should upload file', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET})
-      .then(testUpload(function (res) {
-        expect(res.statusCode).to.equal(200)
-        done()
-      }))
-      .catch(function(){})
+  it('should upload file', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}).then(testUpload))
+      .to.eventually.have.property('statusCode', 200)
   })
-  it('should fail to upload with a bad bucket', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'})
-      .then(testUpload(function (res) {
-        expect(res.statusCode).to.equal(404)
-        done()
-      }))
-      .catch(function(){})
+  it('should fail to upload with a bad bucket', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'}).then(testUpload))
+      .to.eventually.have.property('statusCode', 404)
   })
-  it('should work without httpOptions', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET})
-      .then(function (client) {
-        expect(client).to.be.an.object
-        return done()
-      })
-      .catch(function(){})
+  it('should work without httpOptions', function () {
+    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.eventually.have.property('options')
   })
   it('should reject when a bucket is not specified', function () {
     return expect(knoxec2.authenticate({key: 'fdsaf', secret: 'fdasf'})).to.be.rejectedWith('aws "bucket" required')
@@ -62,13 +48,11 @@ describe('uploading files', function () {
 describe('failed metadata test', function () {
   var knoxec2
   before(function () {
-    // disable due to unhandled rejection
-    this.skip()
     AWS.mock('MetadataService', 'loadCredentials', function (callback) {
       debug('mocking failure')
-      callback(true, {})
+      callback('intentional error', {})
     })
-    knoxec2 = proxyquire('../index.js', { 'AWS': AWS })
+    knoxec2 = require('../')
   })
   after(function () {
     knoxec2 = null
@@ -77,14 +61,6 @@ describe('failed metadata test', function () {
   it('should reject when MetadataService returns error', function () {
     return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
   })
-  /*
-  it('should reject when MetadataService returns error', function (done) {
-    knoxec2.authenticate({bucket: process.env.K2_BUCKET}).catch(function (err) {
-      expect(err).to.equal('kaka')
-      done()
-    })
-  })
-  */
 })
 
 describe('metadata returns bad key', function () {
@@ -94,7 +70,7 @@ describe('metadata returns bad key', function () {
       callback(null, {AccessKeyId: null
         , SecretAccessKey: null})
     })
-    knoxec2 = proxyquire('../index.js', { 'AWS': AWS })
+    knoxec2 = require('../')
   })
   after(function () {
     knoxec2 = null
@@ -104,4 +80,3 @@ describe('metadata returns bad key', function () {
     return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
   })
 })
-

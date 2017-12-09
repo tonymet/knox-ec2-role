@@ -12,7 +12,7 @@ module.exports = {
             2,
             "never"
         ],
-      "promise/always-return": "error",
+       "promise/always-return": "error",
        "promise/no-return-wrap": "error",
        "promise/param-names": "error",
        "promise/catch-or-return": "error",
@@ -26,7 +26,8 @@ module.exports = {
     "env": {
         "browser": true,
         "node": true,
-        "mocha": true
+        "mocha": true,
+        "es6": true
     },
     "extends": "eslint:recommended",
     "plugins": [

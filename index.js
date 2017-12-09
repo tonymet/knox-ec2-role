@@ -15,17 +15,20 @@ function authenticate(conf, httpOptions) {
       if (err !== null) {
         return reject(err)
       }
+      debug('conf', conf)
+      debug('httpOptions', httpOptions)
       debug('credentials from aws: ', creds)
       Object.assign(conf, {key: creds.AccessKeyId, secret: creds.SecretAccessKey, token: creds.Token})
       // refresh creds periodically
       try {
         client = knox.createClient(conf)
         resolve(client)
-        setInterval(
-          function(){
-            refresh(client)
-          }, REFRESH_INTERVAL
-        )
+        if(conf['knox-ec2-role'] && conf['knox-ec2-role'].refresh){
+          setInterval(
+            function(){
+              refresh(client)
+            }, REFRESH_INTERVAL)
+        }
       } catch (e) {
         debug(e)
         debug(e.stack)
@@ -49,4 +52,4 @@ function refresh(client){
   })
 }
 
-module.exports = {authenticate: authenticate, refresh: refresh }
+module.exports = {authenticate: authenticate, refresh: refresh}

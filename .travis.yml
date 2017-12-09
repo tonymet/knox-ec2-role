@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-- 7
+- stable
 - 6
 - 4
 env:
@@ -13,10 +13,19 @@ cache:
   yarn: true
   directories:
   - node_modules
-deploy:
-  email: tonym@tonym.us
-  provider: npm
-  on:
-    tags: true
-  api_key:
-    secure: SkOWWOL4HFmahUmku/q9862Jm7lFPmHFaMexok7xvCAoJDYmBbEzUoTzgkA6gG6YW42LqFrU+goV0SePKhm9EeIkAESmukB9wYOt3bGr1DJURiL21DxpvaBN+BiYNbvsKQcLf96LMVrFmSsxxkKGpmPaT755MUD1e5rAH3Upr3dLUMuKTc6u9GMDrmWbB2VZe6IB92DY9W5qL2wHkr6arLddWiSv2ciEOK9lMwGCO+MtgyNmT8Iy/fLVSObECkTm3E6dxw2pleJv+fCA24etu8j3a+EkLk5BuXYwbkDDHLpVVJAP0m0aMq1X1wfu05bNSQESkXW3CZfb32SHK23Anjmj3SNI09q7fDuIWZ3kogEm5SU+HrvG5SrobWiTFIhFYqE0+z15ipjebZykDDqvEBo9ypTMzAU/oZbn+UOLbpBW0zT3D46xotdxd7zEwUZ7u06jwQwkt2AAP+Ot0v0PiwYimd2Bht01EntPSQqyprJ3I60NE04fK2ttCj0pQd6bK4oaMW7hdf0ZpFd/+GeGKfS38wVkNWjbhx8dd5eRkLUb2w51igeTKBYwI8d4yh491cifroHcozeZDb/vQBSJMyBtjYZJ9b1SvTMEy3B9EgaVU5pcpLnm/bPHn8Kt0ra/SPdSj0eTM6iyhoZhlA2glHbnCAkk8+4RcvO1RDrtCso=
+install:
+- yarn --ignore-engines
+script:
+- yarn lint
+- yarn test
+jobs:
+  include:
+  - stage: npm release
+    node_js: stable
+    deploy:
+      email: tonym@tonym.us
+      provider: npm
+      on:
+        tags: true
+      api_key:
+        secure: Y2PMcSXiK49bnpBNMcOkjc12Pbjb7QzNnCaYOINr76FlSiXK0J6XV6SjQvuYDs7yNAEc0YoS6YtgEvrd/a7zZoYX32VR1BihFh53BDQChZ8u3qDpg0O4klahHjBx6vtEoonqUwAhoVRo963R5ZLhsrFZZoTIq5OjZn0/e2GSGWQSrpgnlqRkUjVZdXryCSwNzbsk7eE/CpzteWJDL3NO0mp7Wr3evQMz2py6lHSrpr+cexo7p5E5M7D2hzg7aPyKXajS/biZOmMvi0nyzgOG8mSZEi2WcN5IB0n7DDlkn+sq8FiVLqxbvn1YqXNiQeN3iA3Y8t8qLZspX/i/SBvqaUMTyVkzwwOb0ztMu21cK5owTaFYuM1WMPihuhsdoAUtl59JvOwzc+DTXMUtsgjUIzMke9LX4qMgHL9c7Hl0504OxlfwVPVOTjl8hfOw960l1MJX1hHedrjbNGXqqtu+/O1B3wmjZBBvVIHb+jO45ihTbWd4OX5NFG52rZv95M1Wv79sAihj11brebSKHgEYq7sjhJEunTF9XDjGk000TZrO4zlB1s6ltRyBOco4kh0Ftm+BVgNFC6qdMd0FkacYv9hm6TUtF7sEVlMuhEXZNeuHxbCuqAIAtZbppA2Ffwchc1Crzp6eNl+M+Kywy9NsxCLSUtKzsusqj//rcBmbSUw=
