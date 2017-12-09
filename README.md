@@ -1,3 +1,11 @@
+![Build Status](https://img.shields.io/travis/tonymet/knox-ec2-role.svg)
+![Downloads](https://img.shields.io/npm/dm/knox-ec2-role.svg)
+![Downloads](https://img.shields.io/npm/dt/knox-ec2-role.svg)
+![npm version](https://img.shields.io/npm/v/knox-ec2-role.svg)
+![dependencies](https://img.shields.io/david/tonymet/knox-ec2-role.svg)
+![dev dependencies](https://img.shields.io/david/dev/tonymet/knox-ec2-role.svg)
+![License](https://img.shields.io/npm/l/knox-ec2-role.svg)
+
 # knox-ec2-role
 
 Create a [Knox client](https://www.npmjs.com/package/knox) using ec2 instance role metadata. Great for removing credentials from github and/or chef databags

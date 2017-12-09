@@ -8,14 +8,14 @@
   ],
   "version": "0.0.6",
   "dependencies": {
-    "aws-sdk": "*",
-    "knox": "*"
+    "aws-sdk": "^2.167.0",
+    "knox": "^0.9.2"
   },
   "scripts": {
     "lint": "eslint -f unix .",
     "inspect": "jsinspect",
-    "pretest": "yarn run lint && yarn run inspect",
-    "test": "mocha test"
+    "pretest": "# yarn run lint && yarn run inspect",
+    "test": "nyc mocha test"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
@@ -23,18 +23,12 @@
   "author": "Tony Metzidis <tonym@tonym.us>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "aws-sdk-mock": "*",
-    "chai": "*",
-    "chai-as-promised": "*",
-    "dotenv": "*",
-    "eslint": "*",
-    "eslint-config-clock": "*",
-    "eslint-config-standard": "*",
-    "eslint-plugin-promise": "*",
-    "eslint-plugin-standard": "*",
-    "jsinspect": "*",
-    "mocha": "*",
-    "proxyquire": "*"
+    "aws-sdk-mock": "^1.7.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^4.13.0",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   },
   "repository": {
     "type": "git",
