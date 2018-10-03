@@ -1,0 +1,10 @@
+.editorconfig
+.travis.yml
+yarn.lock
+node_modules
+npm-debug.log
+.env
+test-long.js
+.nyc_output
+.eslint*
+.jsinspec*
