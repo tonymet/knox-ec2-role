@@ -6,7 +6,7 @@
     "amazon",
     "s3"
   ],
-  "version": "0.0.10",
+  "version": "0.0.11",
   "dependencies": {
     "aws-sdk": "^2.327.0",
     "debug": "^3.2.5",
