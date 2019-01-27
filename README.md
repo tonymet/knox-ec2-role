@@ -22,7 +22,8 @@ npm install --save knox-ec2-role
 ## Usage
 ```
 var knoxec2 = require('knox-ec2-role')
-knoxec2.authenticate({bucket: 'my-bucket'})
+var knox = require('knox')
+knoxec2.authenticate(knox, {bucket: 'my-bucket'})
   .then(function(client){
     var req = client.put('/test/obj.json', {
       'Content-Type': 'application/json'
@@ -38,6 +39,11 @@ knoxec2.authenticate({bucket: 'my-bucket'})
     console.log('error fetching metadata:' + e)
   });
 ```
+
+
+## Changes
+v1.0
+- `authenticate` takes knox object so caller can install any fork.  e.g. `knoxec2.authenticate(knox, {bucket: 'my-bucket'})`
 
 ## Credits
 [Tony Metzidis](https://github.com/tonymet/)

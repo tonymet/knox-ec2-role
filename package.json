@@ -6,16 +6,15 @@
     "amazon",
     "s3"
   ],
-  "version": "0.0.11",
+  "version": "1.0.0",
   "dependencies": {
     "aws-sdk": "^2.327.0",
-    "debug": "^3.2.5",
-    "knox": "^0.9.2"
+    "debug": "^4.1.1"
   },
   "scripts": {
     "lint": "eslint -f unix .",
     "inspect": "jsinspect",
-    "pretest": "# yarn run lint && yarn run inspect",
+    "pretest": "# npm run lint && npm run inspect",
     "test": "nyc mocha test"
   },
   "publishConfig": {
@@ -29,6 +28,7 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "^4.19.1",
     "eslint-plugin-promise": "^3.8.0",
+    "knox": "github:tonymet/knox",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1"
   },
