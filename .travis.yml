@@ -3,7 +3,6 @@ sudo: false
 node_js:
 - stable
 - 8
-- 6
 env:
   global:
   - K2_BUCKET: ops.tonym.us
@@ -13,11 +12,9 @@ cache:
   yarn: true
   directories:
   - node_modules
-install:
-- yarn --ignore-engines
 script:
-- yarn lint
-- yarn test
+- npm lint
+- npm test
 jobs:
   include:
   - stage: npm release
