@@ -1,11 +1,10 @@
 /*global Promise:true*/
 var AWS = require('aws-sdk')
   , debug = require('debug')('knox-ec2-role')
-  , knox = require('knox')
 
 var REFRESH_INTERVAL = 3 * 60 * 1000
 
-function authenticate(conf, httpOptions) {
+function authenticate(knox, conf, httpOptions) {
   conf = conf || {}
   Object.assign(AWS.config.httpOptions, httpOptions)
   return new Promise(function (resolve, reject) {

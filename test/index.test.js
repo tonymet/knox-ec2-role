@@ -4,6 +4,7 @@ var chai = require('chai')
 chai.use(require('chai-as-promised'))
 var debug = require('debug')('index.test.js')
 , AWS = require('aws-sdk-mock')
+, knox = require('knox')
 , expect = chai.expect
 
 function testUpload (client) {
@@ -30,18 +31,18 @@ describe('uploading files', function () {
     AWS.restore()
   })
   it('should upload file', function () {
-    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET}).then(testUpload))
+    return expect(knoxec2.authenticate(knox, {bucket: process.env.K2_BUCKET}).then(testUpload))
       .to.eventually.have.property('statusCode', 200)
   })
   it('should fail to upload with a bad bucket', function () {
-    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET + 'xxx'}).then(testUpload))
+    return expect(knoxec2.authenticate(knox, {bucket: process.env.K2_BUCKET + 'xxx'}).then(testUpload))
       .to.eventually.have.property('statusCode', 404)
   })
   it('should work without httpOptions', function () {
-    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.eventually.have.property('options')
+    return expect(knoxec2.authenticate(knox, {bucket: process.env.K2_BUCKET})).to.eventually.have.property('options')
   })
   it('should reject when a bucket is not specified', function () {
-    return expect(knoxec2.authenticate({key: 'fdsaf', secret: 'fdasf'})).to.be.rejectedWith('aws "bucket" required')
+    return expect(knoxec2.authenticate(knox, {key: 'fdsaf', secret: 'fdasf'})).to.be.rejectedWith('aws "bucket" required')
   })
 })
 
@@ -59,7 +60,7 @@ describe('failed metadata test', function () {
     AWS.restore()
   })
   it('should reject when MetadataService returns error', function () {
-    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
+    return expect(knoxec2.authenticate(knox, {bucket: process.env.K2_BUCKET})).to.be.rejected
   })
 })
 
@@ -77,6 +78,6 @@ describe('metadata returns bad key', function () {
     AWS.restore()
   })
   it('should reject a broken promise', function () {
-    return expect(knoxec2.authenticate({bucket: process.env.K2_BUCKET})).to.be.rejected
+    return expect(knoxec2.authenticate(knox, {bucket: process.env.K2_BUCKET})).to.be.rejected
   })
 })
