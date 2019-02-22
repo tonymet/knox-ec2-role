@@ -6,7 +6,7 @@
     "amazon",
     "s3"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "aws-sdk": "^2.327.0",
     "debug": "^4.1.1"
@@ -26,11 +26,11 @@
     "aws-sdk-mock": "^4.2.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^4.19.1",
-    "eslint-plugin-promise": "^3.8.0",
+    "eslint": "^5.14.1",
+    "eslint-plugin-promise": "^4.0.1",
     "knox": "github:tonymet/knox",
-    "mocha": "^5.2.0",
-    "nyc": "^13.0.1"
+    "mocha": "^6.0.1",
+    "nyc": "^13.3.0"
   },
   "repository": {
     "type": "git",
