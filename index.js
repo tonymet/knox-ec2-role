@@ -1,4 +1,3 @@
-/*global Promise:true*/
 var AWS = require('aws-sdk')
   , debug = require('debug')('knox-ec2-role')
 
