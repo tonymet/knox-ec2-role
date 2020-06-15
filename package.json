@@ -6,7 +6,7 @@
     "amazon",
     "s3"
   ],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "dependencies": {
     "aws-sdk": "^2.696.0",
     "debug": "^4.1.1"
@@ -23,7 +23,7 @@
   "author": "Tony Metzidis <tonym@tonym.us>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "aws-sdk-mock": "^5.0.0",
+    "aws-sdk-mock": "^5.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.8.0",
