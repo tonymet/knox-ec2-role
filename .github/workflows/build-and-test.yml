@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   npm:
-    if: ${{ github.ref == 'refs/tags/*' }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: build
     environment: build
     runs-on: ubuntu-latest
