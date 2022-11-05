@@ -6,29 +6,29 @@
     "amazon",
     "s3"
   ],
-  "version": "1.0.6",
+  "version": "1.0.7",
   "dependencies": {
-    "aws-sdk": "^2.1073.0",
-    "debug": "^4.3.3"
+    "aws-sdk": "^2.1248.0",
+    "debug": "^4.3.4"
   },
   "scripts": {
     "lint": "eslint -f unix .",
     "inspect": "jsinspect",
     "pretest": "# npm run lint && npm run inspect",
-    "test": "nyc mocha test"
+    "test": "export `cat .env` && nyc mocha test"
   },
   "author": "Tony Metzidis <tonym@tonym.us>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "aws-sdk-mock": "^5.6.2",
+    "aws-sdk-mock": "^5.8.0",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^8.9.0",
-    "eslint-plugin-promise": "^6.0.0",
+    "eslint": "^8.26.0",
+    "eslint-plugin-promise": "^6.1.1",
     "knox": "github:tonymet/knox",
-    "mocha": "^9.2.0",
+    "mocha": "^10.1.0",
     "nyc": "^15.1.0",
-    "yaml-lint": "^1.2.4"
+    "yaml-lint": "^1.7.0"
   },
   "repository": {
     "type": "git",
