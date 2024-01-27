@@ -1,11 +1,11 @@
 /*eslint promise/no-callback-in-promise:off*/
 'use strict'
-var chai = require('chai')
-chai.use(require('chai-as-promised'))
+// var chai = require('chai')
+import {expect} from 'chai'
+// chai.use(require('chai-as-promised'))
 var debug = require('debug')('index.test.js')
 , AWS = require('aws-sdk-mock')
 , knox = require('knox')
-, expect = chai.expect
 
 function testUpload (client) {
   return new Promise(function(resolve) {

@@ -1,5 +1,6 @@
 {
   "name": "knox-ec2-role",
+  "type" : "module",
   "description": "Create Knox Client Using EC2 Instance Role Metadata",
   "keywords": [
     "aws",
@@ -20,13 +21,13 @@
   "author": "Tony Metzidis <tonym@tonym.us>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "aws-sdk-mock": "^5.8.0",
-    "chai": "^4.3.6",
+    "aws-sdk-mock": "^5.9.0",
+    "chai": "^5.0.3",
     "chai-as-promised": "^7.1.1",
     "eslint": "^8.26.0",
     "eslint-plugin-promise": "^6.1.1",
     "knox": "github:tonymet/knox",
-    "mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "yaml-lint": "^1.7.0"
   },
