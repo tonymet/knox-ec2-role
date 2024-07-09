@@ -6,9 +6,9 @@
     "amazon",
     "s3"
   ],
-  "version": "1.0.8",
+  "version": "1.0.9",
   "dependencies": {
-    "aws-sdk": "^2.1248.0",
+    "aws-sdk": "^2.1657.0",
     "debug": "^4.3.4"
   },
   "scripts": {
